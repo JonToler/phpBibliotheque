@@ -109,3 +109,7 @@
 * Can remove Patron record from database
   * Input: remove "Joe McCool" from database containing "Joe McCool", "Lana Smith", "Roland Curley"
   * Output: only "Lana Smith" and "Roland Curley" remain in database
+
+* Can add an Author to a Title
+  * Input: add "Brian Herbert" to "The Milkman of Dune"
+  * Output: querying "The Milkman of Dune" returns "Brian Herbert" as Author

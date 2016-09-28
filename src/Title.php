@@ -52,6 +52,7 @@
         static function deleteAll()
         {
             $GLOBALS['DB']->exec("DELETE FROM titles;");
+            $GLOBALS['DB']->exec("DELETE FROM authors_titles;");
         }
 
         static function find($search_id)
@@ -76,6 +77,27 @@
         function delete()
         {
             $GLOBALS['DB']->exec("DELETE FROM titles WHERE id = {$this->getId()};");
+        }
+
+        function addAuthor($author)
+        {
+            $title_id = $this->id;
+            $author_id = $author->getId();
+            $GLOBALS['DB']->exec("INSERT INTO authors_titles (author_id, title_id) VALUES ({$author_id}, {$title_id});");
+        }
+
+        function getAuthor()
+        {
+            $title_id = $this->id;
+            $returned_authors = $GLOBALS['DB']->query("SELECT authors.* FROM titles JOIN authors_titles ON (titles.id = authors_titles.title_id) JOIN authors ON (authors.id = authors_titles.author_id) WHERE titles.id = {$title_id};");
+            $authors = array();
+            foreach($returned_authors as $author) {
+                $name = $author['name'];
+                $id = $author['id'];
+                $new_author = new Author($name, $id);
+                array_push($authors, $new_author);
+            }
+            return $authors;
         }
     }
 ?>

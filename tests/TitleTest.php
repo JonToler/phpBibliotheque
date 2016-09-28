@@ -6,6 +6,7 @@
     */
 
     require_once "src/Title.php";
+    require_once "src/Author.php";
 
     $server = 'mysql:host=localhost;dbname=bibliotheque_test';
     $username = 'root';
@@ -17,6 +18,7 @@
         protected function tearDown()
         {
             Title::deleteAll();
+            Author::deleteAll();
         }
 
         function test_getName()
@@ -154,5 +156,22 @@
             $this->assertEquals([$test_title2, $test_title3], $result);
         }
 
+        function test_addAuthor()
+        {
+            // Arrange
+            $author_name = "Brian Herbert";
+            $new_author = new Author($author_name);
+            $new_author->save();
+            $title_name = "The Milkman of Dune";
+            $new_title = new Title($title_name);
+            $new_title->save();
+
+            // Act
+            $new_title->addAuthor($new_author);
+            $result = $new_title->getAuthor();
+
+            // Assert
+            $this->assertEquals([$new_author], $result);
+        }
     }
 ?>
