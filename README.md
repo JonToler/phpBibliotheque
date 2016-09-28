@@ -129,3 +129,7 @@
 * Can add create multiple Copies of a Title
   * Input: the Library stocks 4 copies of "The Milkman of Dune"
   * Output: returns 4 Copy records for "The Milkman of Dune"
+
+* Deleting a Title will also delete all associated Copies
+  * Input: delete "The Milkman of Dune" which has 4 copies
+  * Output: neither the Title or Copies remain in the database

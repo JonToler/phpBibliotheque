@@ -76,6 +76,7 @@
 
         function delete()
         {
+            $GLOBALS['DB']->exec("DELETE FROM copies WHERE title_id = {$this->getId()};");
             $GLOBALS['DB']->exec("DELETE FROM titles WHERE id = {$this->getId()};");
         }
 

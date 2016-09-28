@@ -277,5 +277,30 @@
             $this->assertEquals($copy_quantity, $result);
         }
 
+        function test_deleteCopies()
+        {
+            // Arrange
+            $author_name = "Brian Herbert";
+            $new_author = new Author($author_name);
+            $new_author->save();
+            $author_name2 = "Kevin Anderson";
+            $new_author2 = new Author($author_name2);
+            $new_author2->save();
+            $title_name = "The Milkman of Dune";
+            $new_title = new Title($title_name);
+            $new_title->save();
+            $new_title->addAuthor($new_author);
+            $new_title->addAuthor($new_author2);
+            $copy_quantity = 4;
+            $new_title->addCopies($copy_quantity);
+
+            // Act
+            $new_title->delete();
+            $result = Copy::getAll();
+
+            // Assert
+            $this->assertEquals([], $result);
+        }
+
     }
 ?>
