@@ -110,6 +110,14 @@
   * Input: remove "Joe McCool" from database containing "Joe McCool", "Lana Smith", "Roland Curley"
   * Output: only "Lana Smith" and "Roland Curley" remain in database
 
-* Can add an Author to a Title
+* Can add an Author to a Title and retrieve author
   * Input: add "Brian Herbert" to "The Milkman of Dune"
   * Output: querying "The Milkman of Dune" returns "Brian Herbert" as Author
+
+* Can add multiple Authors to a Title and retrieve authors
+  * Input: add "Brian Herbert" and "Kevin Anderson" to "The Milkman of Dune"
+  * Output: querying "The Milkman of Dune" returns "Brian Herbert" and "Kevin Anderson" as Authors
+
+* Able to search for a book by its Title
+  * Input: search for "milk"
+  * Output: returns "The Milkman of Dune" by "Brian Herbert" and "Kevin Anderson"

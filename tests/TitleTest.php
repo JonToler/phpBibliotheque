@@ -173,5 +173,83 @@
             // Assert
             $this->assertEquals([$new_author], $result);
         }
+
+        function test_addAuthors()
+        {
+            // Arrange
+            $author_name = "Brian Herbert";
+            $new_author = new Author($author_name);
+            $new_author->save();
+            $author_name2 = "Kevin Anderson";
+            $new_author2 = new Author($author_name2);
+            $new_author2->save();
+            $title_name = "The Milkman of Dune";
+            $new_title = new Title($title_name);
+            $new_title->save();
+
+            // Act
+            $new_title->addAuthor($new_author);
+            $new_title->addAuthor($new_author2);
+            $result = $new_title->getAuthor();
+
+            // Assert
+            $this->assertEquals([$new_author, $new_author2], $result);
+        }
+
+        function test_searchTitle()
+        {
+            // Arrange
+            $author_name = "Brian Herbert";
+            $new_author = new Author($author_name);
+            $new_author->save();
+            $author_name2 = "Kevin Anderson";
+            $new_author2 = new Author($author_name2);
+            $new_author2->save();
+            $title_name = "The Milkman of Dune";
+            $new_title = new Title($title_name);
+            $new_title->save();
+            $title_name2 = "Dune and Its Rugrats";
+            $new_title2 = new Title($title_name2);
+            $new_title2->save();
+            $search_string = "milk";
+
+            // Act
+            $new_title->addAuthor($new_author);
+            $new_title->addAuthor($new_author2);
+            $new_title2->addAuthor($new_author);
+            $result = Title::search($search_string);
+
+            // Assert
+            $this->assertEquals([$new_title], $result);
+        }
+
+        function test_searchTitleAuthors()
+        {
+            // Arrange
+            $author_name = "Brian Herbert";
+            $new_author = new Author($author_name);
+            $new_author->save();
+            $author_name2 = "Kevin Anderson";
+            $new_author2 = new Author($author_name2);
+            $new_author2->save();
+            $title_name = "The Milkman of Dune";
+            $new_title = new Title($title_name);
+            $new_title->save();
+            $title_name2 = "Dune and Its Rugrats";
+            $new_title2 = new Title($title_name2);
+            $new_title2->save();
+            $search_string = "milk";
+
+            // Act
+            $new_title->addAuthor($new_author);
+            $new_title->addAuthor($new_author2);
+            $new_title2->addAuthor($new_author);
+            $found_title = Title::search($search_string);
+            $result = $found_title[0]->getAuthor();
+
+            // Assert
+            $this->assertEquals([$new_author, $new_author2], $result);
+        }
+
     }
 ?>

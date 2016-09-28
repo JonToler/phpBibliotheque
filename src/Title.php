@@ -99,5 +99,18 @@
             }
             return $authors;
         }
+
+        static function search($search_string)
+        {
+            $query = "/" . $search_string . "/i";
+            $found_titles = array();
+            $titles = Title::getAll();
+            foreach ($titles as $title) {
+                if (preg_match($query, $title->getName())) {
+                    array_push($found_titles, $title);
+                }
+            }
+            return $found_titles;
+        }
     }
 ?>
