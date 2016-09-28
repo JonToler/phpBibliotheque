@@ -52,6 +52,7 @@
         static function deleteAll()
         {
             $GLOBALS['DB']->exec("DELETE FROM authors;");
+            $GLOBALS['DB']->exec("DELETE FROM authors_titles;");
         }
 
         static function find($search_id)

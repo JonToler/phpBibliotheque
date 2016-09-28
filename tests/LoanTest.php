@@ -7,6 +7,9 @@
 
     require_once "src/Loan.php";
     require_once "src/Patron.php";
+    require_once "src/Copy.php";
+    require_once "src/Title.php";
+    require_once "src/Author.php";
 
     $server = 'mysql:host=localhost;dbname=bibliotheque_test';
     $username = 'root';
@@ -19,6 +22,9 @@
         {
             Loan::deleteAll();
             Patron::deleteAll();
+            Copy::deleteAll();
+            Title::deleteAll();
+            Author::deleteAll();
         }
 
         function test_getDateAndEntity()
@@ -26,7 +32,7 @@
             // Arrange
             $date1 = "2016-09-28";
             $date2 = "2016-10-02";
-            $date3 = "2016-10-01";
+            $date3 = null;
             $patron_name = "Bob Smith";
             $copy_id = 1;
             $new_patron = new Patron($patron_name);
@@ -109,7 +115,7 @@
             // Arrange
             $date1 = "2016-09-28";
             $date2 = "2016-10-02";
-            $date3 = "2016-10-01";
+            $date3 = null;
             $patron_name = "Bob Smith";
             $copy_id = 1;
             $new_patron = new Patron($patron_name);

@@ -133,3 +133,7 @@
 * Deleting a Title will also delete all associated Copies
   * Input: delete "The Milkman of Dune" which has 4 copies
   * Output: neither the Title or Copies remain in the database
+
+* A Patron can check out a Copy of a Title
+  * Input: Patron "Joe Smith" checks out a Copy of "The Milkman of Dune"
+  * Output: A Loan record is created

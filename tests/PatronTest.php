@@ -6,6 +6,10 @@
     */
 
     require_once "src/Patron.php";
+    require_once "src/Copy.php";
+    require_once "src/Title.php";
+    require_once "src/Author.php";
+    require_once "src/Loan.php";
 
     $server = 'mysql:host=localhost;dbname=bibliotheque_test';
     $username = 'root';
@@ -17,6 +21,10 @@
         protected function tearDown()
         {
             Patron::deleteAll();
+            Copy::deleteAll();
+            Title::deleteAll();
+            Author::deleteAll();
+            Loan::deleteAll();
         }
 
         function test_getName()

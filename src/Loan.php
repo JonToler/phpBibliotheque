@@ -8,11 +8,13 @@
         private $patron_id;
         private $id;
 
-        function __construct($date_out, $date_due, $date_returned, $copy_id, $patron_id, $id = null)
+        function __construct($date_out, $date_due, $date_returned = null, $copy_id, $patron_id, $id = null)
         {
             $this->date_out = date_create($date_out);
             $this->date_due = date_create($date_due);
-            $this->date_returned = date_create($date_returned);
+            if ($date_returned != null) {
+                $this->date_returned = date_create($date_returned);
+            }
             $this->copy_id = $copy_id;
             $this->patron_id = $patron_id;
             $this->id = $id;
@@ -28,8 +30,14 @@
                     return date_format($this->date_due, 'Y-m-d');
                     break;
                 case "date_returned":
-                    return date_format($this->date_returned, 'Y-m-d');
-                    break;
+                    if ($this->date_returned)
+                    {
+                        return date_format($this->date_returned, 'Y-m-d');
+                        break;
+                    } else {
+                        return null;
+                        break;
+                    }
                 default:
                         return "Pick something, hoss.";
             }
@@ -92,8 +100,13 @@
 
         function save()
         {
-          $GLOBALS['DB']->exec("INSERT INTO loans (date_out, date_due, date_returned, copy_id, patron_id) VALUES ('{$this->getDate('date_out')}', '{$this->getDate('date_due')}', '{$this->getDate('date_returned')}', {$this->getEntityId('copy_id')}, {$this->getEntityId('patron_id')});");
-          $this->id = $GLOBALS['DB']->lastInsertId();
+            if ($this->getDate('date_returned') != null) {
+                $return_date = "'{$this->getDate('date_returned')}'";
+            } else {
+                $return_date = "NULL";
+            }
+            $GLOBALS['DB']->exec("INSERT INTO loans (date_out, date_due, date_returned, copy_id, patron_id) VALUES ('{$this->getDate('date_out')}', '{$this->getDate('date_due')}', $return_date, {$this->getEntityId('copy_id')}, {$this->getEntityId('patron_id')});");
+            $this->id = $GLOBALS['DB']->lastInsertId();
         }
 
         static function getAll()

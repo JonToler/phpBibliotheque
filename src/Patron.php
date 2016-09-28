@@ -77,5 +77,6 @@
         {
             $GLOBALS['DB']->exec("DELETE FROM patrons WHERE id = {$this->getId()};");
         }
+
     }
 ?>

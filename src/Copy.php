@@ -77,5 +77,17 @@
         {
             $GLOBALS['DB']->exec("DELETE FROM copies WHERE id = {$this->getId()};");
         }
+
+        function isCheckedOut()
+        {
+            $copy_id = $this->id;
+            $returned_copies = $GLOBALS['DB']->query("SELECT * FROM loans JOIN copies ON (copies.id = loans.copy_id) WHERE copies.id = {$copy_id};");
+            foreach ($returned_copies as $copy) {
+                if ($copy['date_returned'] == null) {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 ?>
