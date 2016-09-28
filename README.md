@@ -121,3 +121,7 @@
 * Able to search for a book by its Title
   * Input: search for "milk"
   * Output: returns "The Milkman of Dune" by "Brian Herbert" and "Kevin Anderson"
+
+* Able to search for a book by its Author
+  * Input: search for "erber"
+  * Output: returns "The Milkman of Dune" and "Dune and Its Rugrats"

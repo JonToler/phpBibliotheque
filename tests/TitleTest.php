@@ -212,11 +212,11 @@
             $new_title2 = new Title($title_name2);
             $new_title2->save();
             $search_string = "milk";
-
-            // Act
             $new_title->addAuthor($new_author);
             $new_title->addAuthor($new_author2);
             $new_title2->addAuthor($new_author);
+
+            // Act
             $result = Title::search($search_string);
 
             // Assert
@@ -239,12 +239,12 @@
             $new_title2 = new Title($title_name2);
             $new_title2->save();
             $search_string = "milk";
-
-            // Act
             $new_title->addAuthor($new_author);
             $new_title->addAuthor($new_author2);
             $new_title2->addAuthor($new_author);
             $found_title = Title::search($search_string);
+
+            // Act
             $result = $found_title[0]->getAuthor();
 
             // Assert

@@ -66,7 +66,7 @@
             }
             return $found_author;
         }
-                
+
         function update($new_name)
         {
             $GLOBALS['DB']->exec("UPDATE authors SET name = '{$new_name}' WHERE id = {$this->getId()};");
@@ -76,6 +76,24 @@
         function delete()
         {
             $GLOBALS['DB']->exec("DELETE FROM authors WHERE id = {$this->getId()};");
+        }
+
+        static function search($search_string)
+        {
+            $query = "/" . $search_string . "/i";
+            $found_titles = array();
+            $titles = Title::getAll();
+            foreach ($titles as $title) {
+                $authors = $title->getAuthor();
+                foreach ($authors as $author)
+                {
+                    if (preg_match($query, $author->getName())) {
+                        array_push($found_titles, $title);
+                    }
+                }
+            }
+            return $found_titles;
+
         }
     }
 ?>
