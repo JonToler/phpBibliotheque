@@ -125,3 +125,7 @@
 * Able to search for a book by its Author
   * Input: search for "erber"
   * Output: returns "The Milkman of Dune" and "Dune and Its Rugrats"
+
+* Can add create multiple Copies of a Title
+  * Input: the Library stocks 4 copies of "The Milkman of Dune"
+  * Output: returns 4 Copy records for "The Milkman of Dune"

@@ -7,6 +7,7 @@
 
     require_once "src/Title.php";
     require_once "src/Author.php";
+    require_once "src/Copy.php";
 
     $server = 'mysql:host=localhost;dbname=bibliotheque_test';
     $username = 'root';
@@ -19,6 +20,7 @@
         {
             Title::deleteAll();
             Author::deleteAll();
+            Copy::deleteAll();
         }
 
         function test_getName()
@@ -249,6 +251,30 @@
 
             // Assert
             $this->assertEquals([$new_author, $new_author2], $result);
+        }
+
+        function test_createCopy()
+        {
+            // Arrange
+            $author_name = "Brian Herbert";
+            $new_author = new Author($author_name);
+            $new_author->save();
+            $author_name2 = "Kevin Anderson";
+            $new_author2 = new Author($author_name2);
+            $new_author2->save();
+            $title_name = "The Milkman of Dune";
+            $new_title = new Title($title_name);
+            $new_title->save();
+            $new_title->addAuthor($new_author);
+            $new_title->addAuthor($new_author2);
+            $copy_quantity = 4;
+            $new_title->addCopies($copy_quantity);
+
+            // Act
+            $result = count($new_title->getCopies());
+
+            // Assert
+            $this->assertEquals($copy_quantity, $result);
         }
 
     }

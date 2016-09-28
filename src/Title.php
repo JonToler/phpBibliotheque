@@ -112,5 +112,28 @@
             }
             return $found_titles;
         }
+
+        function addCopies($copy_quantity)
+        {
+            $title_id = $this->id;
+            for ($i = 1; $i <= $copy_quantity; $i++) {
+                $new_copy = new Copy($title_id);
+                $new_copy->save();
+            }
+        }
+
+        function getCopies()
+        {
+            $title_id = $this->id;
+            $copies = array();
+            $returned_copies = $GLOBALS['DB']->query("SELECT copies.* FROM copies JOIN titles ON (copies.title_id = titles.id) WHERE titles.id = {$title_id};");
+            foreach ($returned_copies as $copy) {
+                $id = $copy['id'];
+                $copy_title = $copy['title_id'];
+                $new_copy = new Copy($copy_title, $id);
+                array_push($copies, $new_copy);
+            }
+            return $copies;
+        }
     }
 ?>
