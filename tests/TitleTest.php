@@ -35,13 +35,12 @@
         {
             // Arrange
             $name = "Joe McCool";
-            $id = null;
+            $id = 10;
             $test_title = new Title($name, $id);
-            $test_title->save();
             // Act
             $result = $test_title->getId();
             // Assert
-            $this->assertEquals($test_title->getId(), $result);
+            $this->assertEquals($id, $result);
         }
 
         function test_setName()

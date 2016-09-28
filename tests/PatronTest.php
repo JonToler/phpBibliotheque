@@ -35,13 +35,12 @@
         {
             // Arrange
             $name = "Joe McCool";
-            $id = null;
+            $id = 10;
             $test_patron = new Patron($name, $id);
-            $test_patron->save();
             // Act
             $result = $test_patron->getId();
             // Assert
-            $this->assertEquals($test_patron->getId(), $result);
+            $this->assertEquals($id, $result);
         }
 
         function test_setName()

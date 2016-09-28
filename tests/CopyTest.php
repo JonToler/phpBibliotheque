@@ -35,13 +35,12 @@
         {
             // Arrange
             $title_id = 1;
-            $id = null;
+            $id = 10;
             $test_copy = new Copy($title_id, $id);
-            $test_copy->save();
             // Act
             $result = $test_copy->getId();
             // Assert
-            $this->assertEquals($test_copy->getId(), $result);
+            $this->assertEquals($id, $result);
         }
 
         function test_setTitleId()

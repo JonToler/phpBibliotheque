@@ -35,13 +35,12 @@
         {
             // Arrange
             $name = "Joe McCool";
-            $id = null;
+            $id = 10;
             $test_author = new Author($name, $id);
-            $test_author->save();
             // Act
             $result = $test_author->getId();
             // Assert
-            $this->assertEquals($test_author->getId(), $result);
+            $this->assertEquals($id, $result);
         }
 
         function test_setName()
