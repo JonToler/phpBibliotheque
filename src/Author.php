@@ -96,6 +96,19 @@
             return $found_titles;
         }
 
+        static function searchAuthor($search_string)
+        {
+            $query = "/" . $search_string . "/i";
+            $found_authors = array();
+            $authors = Author::getAll();
+            foreach ($authors as $author) {
+                if (preg_match($query, $author->getName())) {
+                    array_push($found_authors, $author);
+                    }
+                }
+            return $found_authors;
+        }
+
         function getTitles()
         {
             $returned_titles = $GLOBALS['DB']->query("SELECT titles.* FROM titles JOIN authors_titles ON (titles.id = authors_titles.title_id) JOIN authors ON (authors.id = authors_titles.author_id) WHERE authors.id = {$this->getId()};");

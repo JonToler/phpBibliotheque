@@ -177,5 +177,20 @@
         {
             $GLOBALS['DB']->exec("DELETE FROM loans WHERE id = {$this->getId()};");
         }
+
+        function getPatron()
+        {
+            $patron_id = $this->getEntityId('patron_id');
+            return Patron::find($patron_id);
+        }
+
+        function getTitle()
+        {
+            $copy_id = $this->getEntityId('copy_id');
+            $titles = $GLOBALS['DB']->query("SELECT * FROM loans JOIN copies ON (loans.copy_id = copies.id) JOIN titles ON (titles.id = copies.title_id) WHERE copy_id = {$copy_id};");
+            foreach ($titles as $title) {
+                return $title['name'];
+            }
+        }
     }
 ?>

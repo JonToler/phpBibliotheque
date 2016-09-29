@@ -165,3 +165,7 @@
 * Retrieve all Titles by an Author
   * Input: Author "Brian Herbert" and Title "The Milkman of Dune", find by Author ID
   * Output: Returns "The Milkman of Dune"
+
+* Retrieve Patron from a Loan
+  * Input: A library Loan to "Joe Smith" for "The Milkman of Dune"
+  * Output: Returns Patron record for "Joe Smith"

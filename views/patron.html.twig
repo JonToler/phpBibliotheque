@@ -14,16 +14,12 @@
             <div class="jumbotron">
                 <h1><a href="/">Library</a></h1>
             </div>
-            <h3>Overdue Loans</h3>
             <ul class="list-group">
-                <li class="list-group-item active"><h4>The Shit List</h4></li>
-                {% if loans is not empty %}
-                    {% for loan in loans %}
-                    <li class="list-group-item">'{{ loan.getTitle }}' Checked out by {{ loan.getPatron.getName }} on {{ loan.getDate('date_out') }} and due on {{ loan.getDate('date_due') }}</li>
-                    {% endfor %}
-                {% endif %}
+                <li class="list-group-item active"><h4>Patron's Main Menu</h4></li>
+                <li class="list-group-item"><a href="/patron/authors">Browse by Author</a></li>
+                <li class="list-group-item"><a href="/patron/titles">Browse by Title</a></li>
+                <li class="list-group-item"><a href="/patron/history">My Loan History</a></li>
             </ul>
-            <p><a href="/librarian">Return to the Librarian Main Menu</a></p>
         </div>
     </body>
 </html>
