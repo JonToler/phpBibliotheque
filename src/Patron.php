@@ -78,5 +78,22 @@
             $GLOBALS['DB']->exec("DELETE FROM patrons WHERE id = {$this->getId()};");
         }
 
+        function getLoans()
+        {
+            $loans = array();
+            $returned_loans = $GLOBALS['DB']->query("SELECT * FROM loans WHERE patron_id = {$this->getId()};");
+            foreach ($returned_loans as $loan) {
+                $id = $loan['id'];
+                $date_out = $loan['date_out'];
+                $date_due = $loan['date_due'];
+                $date_returned = $loan['date_returned'];
+                $copy_id = $loan['copy_id'];
+                $patron_id = $loan['patron_id'];
+                $new_loan = new Loan($date_out, $date_due, $date_returned, $copy_id, $patron_id, $id);
+                array_push($loans, $new_loan);
+            }
+            return $loans;
+        }
+
     }
 ?>

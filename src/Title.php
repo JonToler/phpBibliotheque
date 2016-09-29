@@ -136,5 +136,20 @@
             }
             return $copies;
         }
+
+        function onLoanList()
+        {
+            $onLoan = array();
+            $available = array();
+            $copies = $this->getCopies();
+            foreach ($copies as $copy){
+                if ($copy->isCheckedOut()) {
+                    array_push($onLoan, $copy);
+                } else {
+                    array_push($available, $copy);
+                }
+            }
+            return array($onLoan, $available);
+        }
     }
 ?>

@@ -8,6 +8,8 @@
     require_once "src/Title.php";
     require_once "src/Author.php";
     require_once "src/Copy.php";
+    require_once "src/Loan.php";
+    require_once "src/Patron.php";
 
     $server = 'mysql:host=localhost;dbname=bibliotheque_test';
     $username = 'root';
@@ -21,6 +23,8 @@
             Title::deleteAll();
             Author::deleteAll();
             Copy::deleteAll();
+            Loan::deleteAll();
+            Patron::deleteAll();
         }
 
         function test_getName()
@@ -300,6 +304,50 @@
 
             // Assert
             $this->assertEquals([], $result);
+        }
+
+        function test_onLoanList()
+        {
+            // Arrange
+            $name = "Joe McCool";
+            $test_patron1 = new Patron($name);
+            $test_patron1->save();
+            $author_name = "Brian Herbert";
+            $new_author = new Author($author_name);
+            $new_author->save();
+            $author_name2 = "Kevin Anderson";
+            $new_author2 = new Author($author_name2);
+            $new_author2->save();
+            $title_name = "The Milkman of Dune";
+            $new_title = new Title($title_name);
+            $new_title->save();
+            $new_title->addAuthor($new_author);
+            $new_title->addAuthor($new_author2);
+            $copy1 = new Copy($new_title->getId());
+            $copy1->save();
+            $copy2 = new Copy($new_title->getId());
+            $copy2->save();
+            $copy3 = new Copy($new_title->getId());
+            $copy3->save();
+            $copy4 = new Copy($new_title->getId());
+            $copy4->save();
+            $date1 = date("Y-m-d");
+            $date2 = "2016-10-02";
+            $date3 = "2016-10-01";
+            $loan1 = new Loan($date1, $date2, $date3, $copy1->getId(), $test_patron1->getId());
+            $loan1->save();
+            $loan2 = new Loan($date1, $date2, null, $copy2->getId(), $test_patron1->getId());
+            $loan2->save();
+            $loan3 = new Loan($date1, $date2, null, $copy3->getId(), $test_patron1->getId());
+            $loan3->save();
+
+            // Act
+            $onLoan = $new_title->onLoanList()[0];
+            $available = $new_title->onLoanList()[1];
+            $result = array($onLoan, $available);
+
+            // Assert
+            $this->assertEquals(array([$copy2, $copy3], [$copy1, $copy4]), $result);
         }
 
     }

@@ -240,5 +240,50 @@
             $this->assertEquals([$test_loan2], $result);
         }
 
+        function test_allOverdue()
+        {
+            // Arrange
+            $name = "Joe McCool";
+            $test_patron1 = new Patron($name);
+            $test_patron1->save();
+            $author_name = "Brian Herbert";
+            $new_author = new Author($author_name);
+            $new_author->save();
+            $author_name2 = "Kevin Anderson";
+            $new_author2 = new Author($author_name2);
+            $new_author2->save();
+            $title_name = "The Milkman of Dune";
+            $new_title = new Title($title_name);
+            $new_title->save();
+            $new_title->addAuthor($new_author);
+            $new_title->addAuthor($new_author2);
+            $title_name2 = "Neuromancing the Stone";
+            $new_title2 = new Title($title_name2);
+            $new_title2->save();
+            $new_title2->addAuthor($new_author);
+            $copy1 = new Copy($new_title->getId());
+            $copy1->save();
+            $copy2 = new Copy($new_title->getId());
+            $copy2->save();
+            $copy3 = new Copy($new_title2->getId());
+            $copy3->save();
+            $copy4 = new Copy($new_title2->getId());
+            $copy4->save();
+            $date1 = "2016-09-01";
+            $date2 = "2016-09-22";
+            $date3 = "2016-09-18";
+            $loan1 = new Loan($date1, $date2, $date3, $copy1->getId(), $test_patron1->getId());
+            $loan1->save();
+            $loan2 = new Loan($date1, $date2, null, $copy3->getId(), $test_patron1->getId());
+            $loan2->save();
+            $loan3 = new Loan($date1, $date2, null, $copy2->getId(), $test_patron1->getId());
+            $loan3->save();
+
+            // Act
+            $result = Loan::allOverdue();
+
+            // Assert
+            $this->assertEquals([$loan2, $loan3], $result);
+        }
     }
 ?>

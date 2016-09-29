@@ -126,6 +126,23 @@
             return $loans;
         }
 
+        static function allOverdue()
+        {
+            $returned_loan = $GLOBALS['DB']->query("SELECT * FROM loans WHERE date_due < CURRENT_DATE AND date_returned IS NULL;");
+            $loans = array();
+            foreach($returned_loan as $loan) {
+                $id = $loan['id'];
+                $date_out = $loan['date_out'];
+                $date_due = $loan['date_due'];
+                $date_returned = $loan['date_returned'];
+                $copy_id = $loan['copy_id'];
+                $patron_id = $loan['patron_id'];
+                $new_loan = new Loan($date_out, $date_due, $date_returned, $copy_id, $patron_id, $id);
+                array_push($loans, $new_loan);
+            }
+            return $loans;
+        }
+
         static function deleteAll()
         {
             $GLOBALS['DB']->exec("DELETE FROM loans;");

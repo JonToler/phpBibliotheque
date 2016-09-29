@@ -134,6 +134,18 @@
   * Input: delete "The Milkman of Dune" which has 4 copies
   * Output: neither the Title or Copies remain in the database
 
+* Patron or Librarian can get a list of all Copies that are checked out
+  * Input: of 4 copies of "The Milkman of Dune" 2 are checked out
+  * Output: returns list of the 2 that are checked out
+
+* Patron or Librarian can get a list of all Copies that are available
+  * Input: of 4 copies of "The Milkman of Dune" 2 are checked out
+  * Output: returns list of the 2 that are available
+
+* Can get a list of books checked out by a Patron
+  * Input: Joe McCool has checked out 2 books 3 times in total
+  * Output: returns list of 3 loans of 2 books
+
 * A Patron can check out a Copy of a Title
   * Input: Patron "Joe Smith" checks out a Copy of "The Milkman of Dune"
   * Output: A Loan record is created
