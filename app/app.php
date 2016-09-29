@@ -79,14 +79,16 @@
 
     $app->get("/librarian/titles/{id}", function ($id) use ($app){
         $title = Title::find($id);
-        return $app['twig']->render('librarian/title.html.twig', array('title' => $title, 'authors' => $title->getAuthor(), 'all_authors' => $title->nonAuthors()));
+        $copies = $title->getCopies();
+        return $app['twig']->render('librarian/title.html.twig', array('title' => $title, 'authors' => $title->getAuthor(), 'all_authors' => $title->nonAuthors(), 'copies' => $copies));
     });
 
     $app->post("/librarian/titles/add_author", function () use ($app){
         $author = Author::find($_POST['author_id']);
         $title = Title::find($_POST['title_id']);
+        $copies = $title->getCopies();
         $author->addTitle($title);
-        return $app['twig']->render('librarian/title.html.twig', array('title' => $title, 'authors' => $title->getAuthor(), 'all_authors' => $title->nonAuthors()));
+        return $app['twig']->render('librarian/title.html.twig', array('title' => $title, 'authors' => $title->getAuthor(), 'all_authors' => $title->nonAuthors(), 'copies' => $copies));
     });
 
     $app->patch('/librarian/titles/{id}', function($id) use ($app) {
@@ -102,6 +104,13 @@
         return $app['twig']->render('librarian/titles.html.twig', array('titles' => Title::getAll()));
     });
 
+    $app->post("/librarian/titles/{id}/add_copies", function ($id) use ($app){
+        $title = Title::find($id);
+        $title->addCopies($_POST['copy_quantity']);
+        $copies = $title->getCopies();
+        return $app['twig']->render('librarian/title.html.twig', array('title' => $title, 'authors' => $title->getAuthor(), 'all_authors' => $title->nonAuthors(), 'copies' => $copies));
+    });
+
     $app->get("/librarian/patrons", function () use ($app){
         return $app['twig']->render('librarian/patrons.html.twig', array('patrons' => Patron::getAll()));
     });
@@ -112,12 +121,27 @@
         return $app['twig']->render('librarian/patrons.html.twig', array('patrons' => Patron::getAll()));
     });
 
+    $app->get("/librarian/patrons/{id}", function ($id) use ($app){
+        $patron = Patron::find($id);
+        return $app['twig']->render('librarian/patron.html.twig', array('patron' => $patron));
+    });
+
+    $app->patch('/librarian/patrons/{id}', function($id) use ($app) {
+        $new_patron = $_POST['new_patron_name'];
+        $patron = Patron::find($id);
+        $patron->update($new_patron);
+        return $app['twig']->render('librarian/patron.html.twig', array('patron' => $patron));
+    });
+
+    $app->delete("/librarian/patrons/{id}", function ($id) use ($app){
+        $patron = Patron::find($id);
+        $patron->delete();
+        return $app['twig']->render('librarian/patrons.html.twig', array('patrons' => Patron::getAll()));
+    });
+
     $app->get("/librarian/overdue", function () use ($app){
         return $app['twig']->render('librarian/overdue.html.twig', array('loans' => Loan::allOverdue()));
     });
-
-
-
 
     return $app;
 ?>

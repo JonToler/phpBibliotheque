@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+        <link rel="stylesheet" href="/css/styles.css" type="text/css">
+        <script src="/js/jquery-3.1.1.min.js" type="text/javascript"></script>
+        <script src="/js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="/js/scripts.js" type="text/javascript"></script>
+        <title>It's NOT pronounced "Lie-Berry"!</title>
+    </head>
+    <body>
+        <div class="container">
+            <div class="jumbotron">
+                <h1><a href="/">Library</a></h1>
+            </div>
+            <h3>Patron Record for {{ patron.getName }}</h3>
+            <h4>Patron Options</h4>
+            <form action="/librarian/patrons/{{ patron.getId }}" method="post">
+                <input name="_method" type="hidden" value="patch">
+                <div class="form-group">
+                    <label for="new_patron_name">Update Patron Name</label>
+                    <input type="text" name="new_patron_name" id="new_patron_name" class="form-control" placeholder="{{ patron.getName }}">
+                </div>
+                <button type="submit" class="btn btn-default">Update Patron</button>
+            </form>
+            <br>
+            <form action="/librarian/patrons/{{ patron.getId }}" method="post">
+                <input name="_method" type="hidden" value="delete">
+                <button type="submit" class="btn btn-danger">Delete Patron</button>
+                <a class="btn btn-warning" href="/librarian/patrons">Cancel</a>
+            </form>
+            <p><a href="/librarian">Return to the Librarian Main Menu</a></p>
+        </div>
+    </body>
+</html>
