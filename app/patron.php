@@ -1,7 +1,7 @@
 <?php
 
     $app->get("/patron", function () use ($app){
-        return $app['twig']->render('patron.html.twig');
+        return $app['twig']->render('patron.html.twig', array('patrons' => Patron::getAll()));
     });
 
     $app->get("/patron/authors", function () use ($app){
@@ -39,9 +39,10 @@
         return $app['twig']->render('patron/title.html.twig', array('title' => $title, 'authors' => $authors, 'patrons' => Patron::getAll()));
     });
 
-    $app->get("/patron/history", function () use ($app){
-
-        return $app['twig']->render('patron/history.html.twig');
+    $app->post("/patron/history", function () use ($app){
+        $patron = Patron::find($_POST['patron_id']);
+        $loans = $patron->getLoans();
+        return $app['twig']->render('patron/history.html.twig', array('loans' => $loans));
     });
 
 ?>

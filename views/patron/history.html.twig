@@ -17,14 +17,12 @@
             <h3>Loan History</h3>
             <ul class="list-group">
                 <li class="list-group-item active"><h4>Titles</h4></li>
-                {% if titles is not empty %}
-                    {% for title in titles %}
-                    <li class="list-group-item"><a href="/patron/titles/{{ title.getId }}">{{ title.getName }} |                        {% if title.getAuthor is not empty %}
-                            {% for author in title.getAuthor %}
-                                {{ author.getName }} |
-                            {% endfor %}
-                        {% endif %} ({{ title.getCopies|length }} Copies in Library, {{ title.onLoanList[1]|length }} Copies Available)</a></li>
+                {% if loans is not empty %}
+                    {% for loan in loans %}
+                    <li class="list-group-item">'{{ loan.getTitle }}' Checked out by {{ loan.getPatron.getName }} on {{ loan.getDate('date_out') }} and due on {{ loan.getDate('date_due') }}</li>
                     {% endfor %}
+                {% else %}
+                    <li class="list-group-item">No Loans Found</li>
                 {% endif %}
             </ul>
             <p><a href="/patron">Return to the Patron Main Menu</a></p>
