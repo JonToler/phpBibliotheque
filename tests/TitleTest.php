@@ -350,5 +350,30 @@
             $this->assertEquals(array([$copy2, $copy3], [$copy1, $copy4]), $result);
         }
 
+        function test_nonAuthors()
+        {
+            // Arrange
+            $author_name = "Brian Herbert";
+            $new_author = new Author($author_name);
+            $new_author->save();
+            $author_name2 = "Kevin Anderson";
+            $new_author2 = new Author($author_name2);
+            $new_author2->save();
+            $title_name = "The Milkman of Dune";
+            $new_title = new Title($title_name);
+            $new_title->save();
+            $title_name2 = "Dune and Its Rugrats";
+            $new_title2 = new Title($title_name2);
+            $new_title2->save();
+            $new_title->addAuthor($new_author);
+            $new_title2->addAuthor($new_author2);
+
+            // Act
+            $result = $new_title->nonAuthors();
+
+            // Assert
+            $this->assertEquals([$new_author2], $result);
+        }
+
     }
 ?>

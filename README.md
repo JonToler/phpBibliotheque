@@ -126,6 +126,10 @@
   * Input: "Brian Herbert" is the Author of "The Milkman of Dune" but NOT "Dune and Its Rugrats"
   * Output: Searching by "Brian Herbert" Author ID returns "Dune and Its Rugrats"
 
+* Can retrieve list of Authors NOT associated with a Title
+  * Input: "Brian Herbert" is the Author of "The Milkman of Dune"
+  * Output: Searching by "Dune and Its Rugrats" Author ID returns "Kevin Anderson"
+
 * Able to search for a book by its Title
   * Input: search for "milk"
   * Output: returns "The Milkman of Dune" by "Brian Herbert" and "Kevin Anderson"

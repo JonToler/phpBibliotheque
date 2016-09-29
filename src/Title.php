@@ -101,6 +101,23 @@
             return $authors;
         }
 
+        function nonAuthors()
+        {
+            $allAuthors = Author::getAll();
+            $titleAuthors = $this->getAuthor();
+            $nonAuthors = array();
+            foreach($allAuthors as $author) {
+                if(!in_array($author, $titleAuthors))
+                {
+                    $name = $author->getName();
+                    $id = $author->getId();
+                    $new_author = new Author($name, $id);
+                    array_push($nonAuthors, $new_author);
+                }
+            }
+            return $nonAuthors;
+        }
+
         static function search($search_string)
         {
             $query = "/" . $search_string . "/i";

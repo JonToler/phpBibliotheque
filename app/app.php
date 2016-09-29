@@ -77,6 +77,31 @@
         return $app['twig']->render('librarian/titles.html.twig', array('titles' => Title::getAll()));
     });
 
+    $app->get("/librarian/titles/{id}", function ($id) use ($app){
+        $title = Title::find($id);
+        return $app['twig']->render('librarian/title.html.twig', array('title' => $title, 'authors' => $title->getAuthor(), 'all_authors' => $title->nonAuthors()));
+    });
+
+    $app->post("/librarian/titles/add_author", function () use ($app){
+        $author = Author::find($_POST['author_id']);
+        $title = Title::find($_POST['title_id']);
+        $author->addTitle($title);
+        return $app['twig']->render('librarian/title.html.twig', array('title' => $title, 'authors' => $title->getAuthor(), 'all_authors' => $title->nonAuthors()));
+    });
+
+    $app->patch('/librarian/titles/{id}', function($id) use ($app) {
+        $new_title = $_POST['new_title_name'];
+        $title = Title::find($id);
+        $title->update($new_title);
+        return $app['twig']->render('librarian/titles.html.twig', array('titles' => Title::getAll()));
+    });
+
+    $app->delete("/librarian/titles/{id}", function ($id) use ($app){
+        $title = Title::find($id);
+        $title->delete();
+        return $app['twig']->render('librarian/titles.html.twig', array('titles' => Title::getAll()));
+    });
+
     $app->get("/librarian/patrons", function () use ($app){
         return $app['twig']->render('librarian/patrons.html.twig', array('patrons' => Patron::getAll()));
     });

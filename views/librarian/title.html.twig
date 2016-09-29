@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+        <link rel="stylesheet" href="/css/styles.css" type="text/css">
+        <script src="/js/jquery-3.1.1.min.js" type="text/javascript"></script>
+        <script src="/js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="/js/scripts.js" type="text/javascript"></script>
+        <title>It's NOT pronounced "Lie-Berry"!</title>
+    </head>
+    <body>
+        <div class="container">
+            <div class="jumbotron">
+                <h1><a href="/">Library</a></h1>
+            </div>
+            <h3>Manage {{ title.getName }}'s Author(s)</h3>
+            <ul class="list-group">
+                <li class="list-group-item active"><h4>Titles</h4></li>
+                {% if authors is not empty %}
+                    {% for author in authors %}
+                    <li class="list-group-item"><a href="/librarian/authors/{{ author.getId }}">{{ author.getName }}</a></li>
+                    {% endfor %}
+                {% endif %}
+            </ul>
+            <h4>Add an Author</h4>
+            <form action="/librarian/titles/add_author" method="post">
+                <div class="form-group">
+                    <input id="title_id" name="title_id" type="hidden" value="{{ title.getId }}">
+                    <select id="author_id" name="author_id" class="form-control">
+                        {% if all_authors is not empty %}
+                            {% for all_author in all_authors %}
+                            <option value="{{ all_author.getId }}">{{ all_author.getName }}</option>
+                            {% endfor %}
+                        {% endif %}
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-default">Add Author to Title</button>
+            </form>
+            <h4>Title Options</h4>
+            <form action="/librarian/titles/{{ title.getId }}" method="post">
+                <input name="_method" type="hidden" value="patch">
+                <div class="form-group">
+                    <label for="new_title_name">Title Name</label>
+                    <input type="text" name="new_title_name" id="new_title_name" class="form-control" placeholder="{{ title.getName }}">
+                </div>
+                <button type="submit" class="btn btn-default">Update Title</button>
+            </form>
+            <br>
+            <form action="/librarian/titles/{{ title.getId }}" method="post">
+                <input name="_method" type="hidden" value="delete">
+                <button type="submit" class="btn btn-danger">Delete Title</button>
+                <a class="btn btn-warning" href="/librarian/titles">Cancel</a>
+            </form>
+            <p><a href="/librarian">Return to the Librarian Main Menu</a></p>
+        </div>
+    </body>
+</html>
