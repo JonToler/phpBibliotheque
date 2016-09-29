@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+        <link rel="stylesheet" href="/css/styles.css" type="text/css">
+        <script src="/js/jquery-3.1.1.min.js" type="text/javascript"></script>
+        <script src="/js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="/js/scripts.js" type="text/javascript"></script>
+        <title>It's NOT pronounced "Lie-Berry"!</title>
+    </head>
+    <body>
+        <div class="container">
+            <div class="jumbotron">
+                <h1><a href="/">Library</a></h1>
+            </div>
+            <h3>Overdue Loans</h3>
+            <ul class="list-group">
+                <li class="list-group-item active"><h4>The Shit List</h4></li>
+                {% if loans is not empty %}
+                    {% for loan in loans %}
+                    <li class="list-group-item"><a href="/librarian/loans/{{ loan.getId }}">{{ loan.getid }} | Due {{ loan.getDate('date_due') }}</a></li>
+                    {% endfor %}
+                {% endif %}
+            </ul>
+            <br>
+            <p><a href="/librarian">Return to the Librarian Main Menu</a></p>
+        </div>
+    </body>
+</html>

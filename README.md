@@ -118,6 +118,14 @@
   * Input: add "Brian Herbert" and "Kevin Anderson" to "The Milkman of Dune"
   * Output: querying "The Milkman of Dune" returns "Brian Herbert" and "Kevin Anderson" as Authors
 
+* Can add a Title to an Author and retrieve Title
+  * Input: add "The Milkman of Dune" to "Brian Herbert"
+  * Output: querying "Brian Herbert" as Author returns "The Milkman of Dune" as Title
+
+* Can retrieve list of Titles NOT associated with an Author
+  * Input: "Brian Herbert" is the Author of "The Milkman of Dune" but NOT "Dune and Its Rugrats"
+  * Output: Searching by "Brian Herbert" Author ID returns "Dune and Its Rugrats"
+
 * Able to search for a book by its Title
   * Input: search for "milk"
   * Output: returns "The Milkman of Dune" by "Brian Herbert" and "Kevin Anderson"
@@ -149,3 +157,7 @@
 * A Patron can check out a Copy of a Title
   * Input: Patron "Joe Smith" checks out a Copy of "The Milkman of Dune"
   * Output: A Loan record is created
+
+* Retrieve all Titles by an Author
+  * Input: Author "Brian Herbert" and Title "The Milkman of Dune", find by Author ID
+  * Output: Returns "The Milkman of Dune"

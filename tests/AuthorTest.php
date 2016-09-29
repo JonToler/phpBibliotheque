@@ -5,8 +5,11 @@
     * @backupStaticAttributes disabled
     */
 
-    require_once "src/Author.php";
+    require_once "src/Copy.php";
     require_once "src/Title.php";
+    require_once "src/Author.php";
+    require_once "src/Loan.php";
+    require_once "src/Patron.php";
 
     $server = 'mysql:host=localhost;dbname=bibliotheque_test';
     $username = 'root';
@@ -17,7 +20,11 @@
     {
         protected function tearDown()
         {
+            Copy::deleteAll();
+            Title::deleteAll();
             Author::deleteAll();
+            Loan::deleteAll();
+            Patron::deleteAll();
         }
 
         function test_getName()
@@ -182,6 +189,81 @@
             $this->assertEquals([$new_title, $new_title2], $result);
         }
 
+        function test_getTitles()
+        {
+            // Arrange
+            $author_name = "Brian Herbert";
+            $new_author = new Author($author_name);
+            $new_author->save();
+            $author_name2 = "Kevin Anderson";
+            $new_author2 = new Author($author_name2);
+            $new_author2->save();
+            $title_name = "The Milkman of Dune";
+            $new_title = new Title($title_name);
+            $new_title->save();
+            $title_name2 = "Dune and Its Rugrats";
+            $new_title2 = new Title($title_name2);
+            $new_title2->save();
+            $search_string = "erber";
+            $new_title->addAuthor($new_author);
+            $new_title->addAuthor($new_author2);
+            $new_title2->addAuthor($new_author);
 
+            // Act
+            $result = $new_author2->getTitles();
+
+            // Assert
+            $this->assertEquals([$new_title], $result);
+        }
+
+        function test_addTitle()
+        {
+            // Arrange
+            $author_name = "Brian Herbert";
+            $new_author = new Author($author_name);
+            $new_author->save();
+            $author_name2 = "Kevin Anderson";
+            $new_author2 = new Author($author_name2);
+            $new_author2->save();
+            $title_name = "The Milkman of Dune";
+            $new_title = new Title($title_name);
+            $new_title->save();
+            $title_name2 = "Dune and Its Rugrats";
+            $new_title2 = new Title($title_name2);
+            $new_title2->save();
+
+            // Act
+            $new_author->addTitle($new_title);
+            $result = $new_author->getTitles();
+
+            // Assert
+            $this->assertEquals([$new_title], $result);
+        }
+
+        function test_getNotAuthored()
+        {
+            // Arrange
+            $author_name = "Brian Herbert";
+            $new_author = new Author($author_name);
+            $new_author->save();
+            $author_name2 = "Kevin Anderson";
+            $new_author2 = new Author($author_name2);
+            $new_author2->save();
+            $title_name = "The Milkman of Dune";
+            $new_title = new Title($title_name);
+            $new_title->save();
+            $title_name2 = "Dune and Its Rugrats";
+            $new_title2 = new Title($title_name2);
+            $new_title2->save();
+            $new_title->addAuthor($new_author);
+            $new_title->addAuthor($new_author2);
+            $new_title2->addAuthor($new_author);
+
+            // Act
+            $result = $new_author2->getNotAuthored();
+
+            // Assert
+            $this->assertEquals([$new_title2], $result);
+        }
     }
 ?>

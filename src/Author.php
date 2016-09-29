@@ -94,7 +94,42 @@
                 }
             }
             return $found_titles;
+        }
 
+        function getTitles()
+        {
+            $returned_titles = $GLOBALS['DB']->query("SELECT titles.* FROM titles JOIN authors_titles ON (titles.id = authors_titles.title_id) JOIN authors ON (authors.id = authors_titles.author_id) WHERE authors.id = {$this->getId()};");
+            $titles = array();
+            foreach($returned_titles as $title) {
+                $name = $title['name'];
+                $id = $title['id'];
+                $new_title = new Title($name, $id);
+                array_push($titles, $new_title);
+            }
+            return $titles;
+        }
+
+        function getNotAuthored()
+        {
+            $allTitles = Title::getAll();
+            $authoredTitles = $this->getTitles();
+            $notAuthored = array();
+            foreach($allTitles as $title) {
+                if(!in_array($title, $authoredTitles))
+                {
+                    $name = $title->getName();
+                    $id = $title->getId();
+                    $new_title = new Title($name, $id);                    array_push($notAuthored, $new_title);
+                }
+            }
+            return $notAuthored;
+        }
+
+        function addTitle($title)
+        {
+            $author_id = $this->id;
+            $title_id = $title->getId();
+            $GLOBALS['DB']->exec("INSERT INTO authors_titles (author_id, title_id) VALUES ({$author_id}, {$title_id});");
         }
     }
 ?>

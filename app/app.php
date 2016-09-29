@@ -22,6 +22,9 @@
         'twig.path' => __DIR__.'/../views'
     ));
 
+    use Symfony\Component\HttpFoundation\Request;
+    Request::enableHttpMethodParameterOverride();
+
     $app->get("/", function () use ($app){
         return $app['twig']->render('index.html.twig');
     });
@@ -34,10 +37,34 @@
         return $app['twig']->render('librarian/authors.html.twig', array('authors' => Author::getAll()));
     });
 
+    $app->get("/librarian/authors/{id}", function ($id) use ($app){
+        return $app['twig']->render('librarian/author.html.twig', array('author' => Author::find($id), 'titles' => Author::find($id)->getTitles(), 'all_titles' => Author::find($id)->getNotAuthored()));
+    });
+
+    $app->patch('/librarian/authors/{id}', function($id) use ($app) {
+        $new_name = $_POST['new_author_name'];
+        $author = Author::find($id);
+        $author->update($new_name);
+        return $app['twig']->render('librarian/authors.html.twig', array('authors' => Author::getAll()));
+    });
+
+    $app->delete("/librarian/authors/{id}", function ($id) use ($app){
+        $author = Author::find($id);
+        $author->delete();
+        return $app['twig']->render('librarian/authors.html.twig', array('authors' => Author::getAll()));
+    });
+
     $app->post("/librarian/authors/new_author", function () use ($app){
         $author = new Author($_POST['author_name']);
         $author->save();
         return $app['twig']->render('librarian/authors.html.twig', array('authors' => Author::getAll()));
+    });
+
+    $app->post("/librarian/authors/add_title", function () use ($app){
+        $author = Author::find($_POST['author_id']);
+        $title = Title::find($_POST['title_id']);
+        $author->addTitle($title);
+        return $app['twig']->render('librarian/author.html.twig', array('author' => $author, 'titles' => $author->getTitles(), 'all_titles' => $author->getNotAuthored()));
     });
 
     $app->get("/librarian/titles", function () use ($app){
@@ -61,7 +88,7 @@
     });
 
     $app->get("/librarian/overdue", function () use ($app){
-        return $app['twig']->render('librarian/overdue.html.twig');
+        return $app['twig']->render('librarian/overdue.html.twig', array('loans' => Loan::allOverdue()));
     });
 
 
